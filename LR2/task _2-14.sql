@@ -1,5 +1,7 @@
 /*Выберите самый дорогой и самый дешевый объект.*/
 USE cd;
-SELECT facility, IF(mini = initialoutlay, "Дешевый", "Дорогой") as "Стоимость"
-  FROM facilities, (SELECT MIN(initialoutlay) as mini, MAX(initialoutlay) as maxi FROM facilities) as m1
-  WHERE initialoutlay IN (mini, maxi);
+SELECT facility, 'Самый дорогой' AS 'Качественная стоимость' FROM facilities
+WHERE initialoutlay = (SELECT MAX(initialoutlay)  FROM facilities)
+UNION 
+SELECT facility, 'Самый дешёвый' FROM facilities
+WHERE initialoutlay = (SELECT MIN(initialoutlay) FROM facilities);
