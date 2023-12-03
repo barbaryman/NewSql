@@ -1,2 +1,2 @@
 USE world;
-SELECT * FROM city WHERE NAME LIKE 'a%';
+SELECT * FROM city WHERE NAME LIKE 's%';
