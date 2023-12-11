@@ -5,8 +5,7 @@
 USE cd;
 WITH IncomeGroups AS (
     SELECT 
-        fac.facility,
-        SUM(book.slots) AS Total_Income,
+        fac.facility,SUM(book.slots) AS Total_Income,
         NTILE(3) OVER (ORDER BY SUM(book.slots)) AS Income_Group
     FROM bookings AS book
     INNER JOIN facilities AS fac ON book.facid = fac.facid
@@ -15,9 +14,9 @@ WITH IncomeGroups AS (
 SELECT 
     facility AS 'Название объекта',
     CASE 
-        WHEN Income_Group = 1 THEN 'высокий'
+        WHEN Income_Group = 1 THEN 'низкий'
         WHEN Income_Group = 2 THEN 'средний'
-        ELSE 'низкий' 
+        ELSE 'высокий' 
     END AS Income_Category
 FROM IncomeGroups
 ORDER BY Income_Group, facility;
