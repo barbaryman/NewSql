@@ -5,7 +5,7 @@
 (== рангу), фамилии и имени.*/
 USE cd;
 SELECT mem.firstname AS 'Имя', mem.surname AS 'Фамилия', ROUND(SUM(COALESCE(book.slots / 2, 0)), -1) AS 'Округлённые часы',
-RANK() OVER (ORDER BY ROUND(SUM(COALESCE(book.slots / 2, 0)), -1)) AS Ранг
+DENSE_RANK() OVER (ORDER BY ROUND(SUM(COALESCE(book.slots / 2, 0)), -1)) AS Ранг
 FROM members AS mem
 LEFT JOIN bookings AS book ON mem.memid = book.memid
 GROUP BY mem.memid
