@@ -2,8 +2,8 @@
 (для каждой записи таблицы bookings).*/
 USE cd;
 DELIMITER $$
-DROP FUNCTION IF EXISTS CalculateRentalCost $$
-CREATE FUNCTION CalculateRentalCost(memid INT, facid INT, slots INT)
+DROP FUNCTION IF EXISTS rentalcost $$
+CREATE FUNCTION rentalcost(memid INT, facid INT, slots INT)
 RETURNS DECIMAL(10, 2)
 READS SQL DATA
 NOT DETERMINISTIC
@@ -16,5 +16,5 @@ BEGIN
     RETURN Стоимость_аренды;
 END$$
 DELIMITER ;
-SELECT CalculateRentalCost(memid, facid, slots) AS Стоимость_аренды
+SELECT rentalcost(memid, facid, slots) AS Стоимость_аренды
 FROM bookings;
