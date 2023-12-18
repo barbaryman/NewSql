@@ -6,10 +6,18 @@
 агрегированных значений для всех месяцев и всех facid возвращайте нулевые 
 значения в столбцах месяца и facid.*/
 USE cd; 
-SELECT 	IFNULL(derived_table.facid, 'Total') AS facid, IFNULL(derived_table.Month, 'Total') AS Month, SUM(derived_table.slots) AS 'Количество броней' 
-FROM (SELECT fac.facid AS facid, MONTH(book.starttime) AS month, SUM(book.slots) AS slots
-FROM facilities AS fac
-INNER JOIN bookings book ON fac.facid = book.facid
-WHERE YEAR(book.starttime) = 2012 
-GROUP BY facid, Month, slots) AS derived_table
-GROUP BY facid, Month WITH ROLLUP;
+SELECT IFNULL(derived_table.facid, 'Total') as facid,
+		IFNULL(derived_table.month, 'Total') as month,
+        SUM(derived_table.slots) AS 'Количество забронированных мест'
+FROM 
+(SELECT 
+        f.facid AS facid,
+        MONTH(b.starttime) AS month,
+        SUM(b.slots) as slots
+    FROM
+        facilities f
+    INNER JOIN bookings b ON f.facid = b.facid
+    WHERE
+        YEAR(b.starttime) = 2012
+    GROUP BY facid, month, slots) AS derived_table
+GROUP BY facid, month WITH ROLLUP;
